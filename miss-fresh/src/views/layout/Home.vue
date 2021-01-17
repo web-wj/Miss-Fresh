@@ -61,7 +61,7 @@
         </a-button>
         <div class="breadcrumb">面包屑</div>
         <ul class="user-info">
-          <li>欢迎：wj</li>
+          <li>欢迎：wj<a-icon type="down" /></li>
           <li>退出</li>
         </ul>
       </div>
