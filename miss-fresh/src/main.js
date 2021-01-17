@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import './plugins/ant-design-vue';
+import './assets/css/home.less';
 import '@/assets/css/reset.less';
 
 Vue.config.productionTip = false;
