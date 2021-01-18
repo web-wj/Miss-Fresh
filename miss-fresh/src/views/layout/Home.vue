@@ -1,8 +1,9 @@
 <template>
   <div class="home">
     <left-menu />
-    <div :class="{ 'main-app': true, 'menu-unfold': collapsed }">
+    <div :class="{ 'main-app': true, 'menu-unfold': $store.state.collapsed }">
      <top-header />
+     <router-view></router-view>
     </div>
   </div>
 </template>
@@ -18,17 +19,13 @@ import topHeader from '../components/topHeader.vue';
 export default {
   data() {
     return {
-      collapsed: false,
+
     };
   },
   components: {
     leftMenu,
     topHeader,
   },
-  methods: {
-    toggleCollapsed() {
-      this.collapsed = !this.collapsed;
-    },
-  },
+
 };
 </script>

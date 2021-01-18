@@ -1,7 +1,7 @@
 <template>
      <div class="main-header">
         <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
-          <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
+          <a-icon :type="$store.state.collapsed? 'menu-unfold' : 'menu-fold'" />
         </a-button>
         <div class="breadcrumb">
           <a-breadcrumb>
@@ -15,3 +15,13 @@
         </ul>
       </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    toggleCollapsed() {
+      this.$store.dispatch('collapsedActions');
+    },
+  },
+};
+</script>
