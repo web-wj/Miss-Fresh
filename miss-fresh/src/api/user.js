@@ -1,5 +1,5 @@
 // 对于用户操作的接口管理
-import axios from '../axios';
+import axios from '@/axios';
 
 export default {
   login(params) {

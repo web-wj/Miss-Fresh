@@ -1,20 +1,15 @@
 <template>
   <div class="home">
     <left-menu />
-    <div :class="{ 'main-app': true, 'menu-unfold': $store.state.collapsed }">
-     <top-header />
-     <router-view></router-view>
+    <div :class="{'main-app': true, 'extend-app': $store.state.collapsed}">
+      <topNav />
     </div>
   </div>
 </template>
 
-<style lang="less">
-@import url("~@/assets/css/home.less");
-</style>
-
 <script>
-import leftMenu from '../components/leftMenu.vue';
-import topHeader from '../components/topHeader.vue';
+import leftMenu from './components/LeftMenu.vue';
+import topNav from './components/TopNav.vue';
 
 export default {
   data() {
@@ -24,8 +19,14 @@ export default {
   },
   components: {
     leftMenu,
-    topHeader,
+    topNav,
   },
+  methods: {
 
+  },
 };
 </script>
+
+<style lang="less">
+@import url("../../assets/css/home.less");
+</style>

@@ -10,8 +10,8 @@
           </a-breadcrumb>
         </div>
         <ul class="user-info">
-          <li>欢迎：wj<a-icon type="down" /></li>
-          <li>退出</li>
+          <li>欢迎：{{$store.state.user.username}}<a-icon type="down" /></li>
+          <li @click="logout">退出</li>
         </ul>
       </div>
 </template>
@@ -21,6 +21,12 @@ export default {
   methods: {
     toggleCollapsed() {
       this.$store.dispatch('collapsedActions');
+    },
+    logout() {
+      this.$store.dispatch('logout');
+      this.$router.replace({
+        name: 'Login',
+      });
     },
   },
 };
