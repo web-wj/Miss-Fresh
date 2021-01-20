@@ -13,7 +13,7 @@
     </div>
     <ul class="user-info">
       <li class="user-name">
-        {{$store.state.user.username}}
+        欢迎：{{$store.state.user.username}}
         <a-icon type="down" />
       </li>
       <li class="login-out" @click="logout">退出</li>

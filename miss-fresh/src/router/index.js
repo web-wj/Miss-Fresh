@@ -3,40 +3,86 @@ import VueRouter from 'vue-router';
 import store from '@/store';
 import Home from '../views/layout/Home.vue';
 import Login from '../views/layout/Login.vue';
+import getMenuRoutes from '../utils/permission';
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
+const asyncRouters = [{
+  path: '/production',
+  name: 'Production',
+  meta: {
+    title: '商品',
   },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login,
+  component: Home,
+  children: [{
+    path: 'prolist',
+    name: 'Prolist',
+    meta: {
+      title: '商品列表',
+    },
+    component: () => import('../views/pages/ProList.vue'),
+  }, {
+    path: 'proadd',
+    name: 'Proadd',
+    meta: {
+      title: '添加商品',
+    },
+    component: () => import('../views/pages/ProAdd.vue'),
+
+  }, {
+    path: 'classmanage',
+    name: 'Classmanage',
+    meta: {
+      title: '类目管理',
+    },
+    component: () => import('../views/pages/ClassManage.vue'),
+  }],
+}];
+
+const routes = [{
+  path: '/',
+  name: 'Home',
+  meta: {
+    title: '首页',
   },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
-  },
+  component: Home,
+  children: [{
+    path: 'index',
+    name: 'Index',
+    meta: {
+      title: '统计',
+    },
+    component: () => import('../views/pages/Index.vue'),
+  }],
+},
+{
+  path: '/login',
+  name: 'Login',
+  component: Login,
+},
 ];
 
 const router = new VueRouter({
   routes,
 });
 
+let isFirstLogin = false;
 router.beforeEach((to, from, next) => {
   if (to.path !== '/login') {
-    if (store.state.user.appkey && store.state.user.username && store.state.user.role) {
+    // 表示已经登录过了！
+    if (store.state.user.appkey) {
+      // 处理路由
+      if (!isFirstLogin) {
+        const resRoutes = getMenuRoutes(asyncRouters, store.state.user.role);
+        router.addRoutes(resRoutes);
+        store.dispatch('changeMenu', routes.concat(resRoutes).filter((item) => item.name !== 'Login'));
+        isFirstLogin = true;
+      }
       return next();
     }
-    return next('/login');
+    return next({
+      name: 'Login',
+    });
   }
   return next();
 });

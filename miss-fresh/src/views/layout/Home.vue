@@ -3,6 +3,7 @@
     <left-menu />
     <div :class="{'main-app': true, 'extend-app': $store.state.collapsed}">
       <topNav />
+      <router-view></router-view>
     </div>
   </div>
 </template>
