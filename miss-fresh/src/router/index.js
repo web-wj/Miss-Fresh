@@ -12,6 +12,7 @@ const asyncRouters = [{
   name: 'Production',
   meta: {
     title: '商品',
+    icon: 'inbox',
   },
   component: Home,
   children: [{
@@ -19,31 +20,38 @@ const asyncRouters = [{
     name: 'Prolist',
     meta: {
       title: '商品列表',
+      icon: 'unordered-list',
     },
     component: () => import('../views/pages/ProList.vue'),
-  }, {
+  },
+  {
     path: 'proadd',
     name: 'Proadd',
     meta: {
       title: '添加商品',
+      icon: 'file-add',
     },
     component: () => import('../views/pages/ProAdd.vue'),
-
-  }, {
+  },
+  {
     path: 'classmanage',
     name: 'Classmanage',
     meta: {
       title: '类目管理',
+      meta: 'control',
     },
     component: () => import('../views/pages/ClassManage.vue'),
-  }],
+  },
+  ],
 }];
 
 const routes = [{
   path: '/',
   name: 'Home',
+  redirect: '/Index',
   meta: {
     title: '首页',
+    icon: 'home',
   },
   component: Home,
   children: [{
@@ -51,6 +59,7 @@ const routes = [{
     name: 'Index',
     meta: {
       title: '统计',
+      icon: 'line-chart',
     },
     component: () => import('../views/pages/Index.vue'),
   }],
@@ -74,8 +83,15 @@ router.beforeEach((to, from, next) => {
       // 处理路由
       if (!isFirstLogin) {
         const resRoutes = getMenuRoutes(asyncRouters, store.state.user.role);
-        router.addRoutes(resRoutes);
-        store.dispatch('changeMenu', routes.concat(resRoutes).filter((item) => item.name !== 'Login'));
+        store
+          .dispatch(
+            'changeMenu',
+            routes.concat(resRoutes).filter((item) => item.name !== 'Login'),
+          )
+          .then(() => {
+            router.addRoutes(resRoutes);
+            next();
+          });
         isFirstLogin = true;
       }
       return next();

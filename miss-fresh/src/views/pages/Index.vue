@@ -1,5 +1,15 @@
 <template>
-  <div>
-    <h1>统计</h1>
+  <div class="index">
+    <card />
   </div>
 </template>
+
+<script>
+import Card from '../../components/Card.vue';
+
+export default {
+  components: {
+    Card,
+  },
+};
+</script>
