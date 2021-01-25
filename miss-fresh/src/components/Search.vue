@@ -33,21 +33,15 @@
   </a-form-model>
 </template>
 <script>
-import api from '../api/category';
 
 export default {
-  created() {
-    api.list().then((res) => {
-      this.categoryList = res.data;
-    });
-  },
+  props: ['categoryList'],
   data() {
     return {
       searchFrom: {
         keyword: '',
         category: '',
       },
-      categoryList: [],
     };
   },
   methods: {
