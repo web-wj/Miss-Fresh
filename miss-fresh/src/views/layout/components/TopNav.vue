@@ -13,13 +13,13 @@
         </a-breadcrumb-item>
       </a-breadcrumb>
     </div>
-    <ul class="user-info">
-      <li class="user-name">
+    <div class="user-info">
+      <div class="user-name">
         欢迎：{{ $store.state.user.username }}
         <a-icon type="down" />
-      </li>
-      <li class="login-out" @click="logout">退出</li>
-    </ul>
+      </div>
+      <div class="login-out" @click="logout">退出</div>
+    </div>
   </div>
 </template>
 <script>

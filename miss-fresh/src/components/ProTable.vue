@@ -5,9 +5,9 @@
     :pagination="pagination"
     @change="changePage"
   >
-    <div slot="operation">
-      <a-button>编辑</a-button>
-      <a-button>删除</a-button>
+    <div slot="operation" slot-scope="text,record">
+      <a-button @click="edit(record)">编辑</a-button>
+      <a-button @click="delect(record)">删除</a-button>
     </div>
   </a-table>
 </template>
@@ -88,6 +88,12 @@ export default {
     // 改变页码时触发的函数
     changePage(page) {
       this.$emit('pageNum', page);
+    },
+    edit(record) {
+      this.$emit('proEdit', record);
+    },
+    delect(record) {
+      this.$emit('proDelect', record);
     },
   },
 };

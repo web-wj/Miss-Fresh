@@ -1,12 +1,8 @@
 <template>
   <div class="menu-list">
     <a-menu
-      :default-selected-keys="[
-        $router.history.current.matched[0] ? $router.history.current.matched[0].name : ''
-      ]"
-      :default-open-keys="[
-        $router.history.current.matched[1] ? $router.history.current.matched[1].name : ''
-      ]"
+      :default-selected-keys="[defaultSelect]"
+      :default-open-keys="[defaultOpen]"
       mode="inline"
       theme="dark"
       :inline-collapsed="$store.state.collapsed"
@@ -16,16 +12,19 @@
           <a-icon :type="item.meta.icon" />
           <span>{{ item.meta.title }}</span>
         </span>
-        <a-menu-item v-for="child in item.children" :key="child.name">
+        <template v-for="child in item.children">
+          <a-menu-item  v-if='!child.meta.hidden' :key="child.name">
           <router-link :to="{ name: child.name }">
             <a-icon :type="child.meta.icon" />
             {{ child.meta.title }}
           </router-link>
         </a-menu-item>
+        </template>
       </a-sub-menu>
     </a-menu>
   </div>
 </template>
+
 <style lang="less">
 .menu-list {
   width: 200px;
@@ -36,6 +35,16 @@
   }
 }
 </style>
+
 <script>
-export default {};
+export default {
+  computed: {
+    defaultSelect() {
+      return this.$router.history.current.matched[0] ? this.$router.history.current.matched[0].name : '';
+    },
+    defaultOpen() {
+      return this.$router.history.current.matched[1] ? this.$router.history.current.matched[1].name : '';
+    },
+  },
+};
 </script>

@@ -38,9 +38,19 @@ const asyncRouters = [{
     name: 'Classmanage',
     meta: {
       title: '类目管理',
-      meta: 'control',
+      icon: 'control',
     },
     component: () => import('../views/pages/ClassManage.vue'),
+  },
+  {
+    path: 'edit/:id',
+    name: 'Proedit',
+    meta: {
+      title: '编辑商品',
+      icon: 'file-add',
+      hidden: true,
+    },
+    component: () => import('../views/pages/ProAdd.vue'),
   },
   ],
 }];

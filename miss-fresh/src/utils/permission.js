@@ -6,6 +6,8 @@ const roleToRouter = {
     name: 'Prolist',
   }, {
     name: 'Proadd',
+  }, {
+    name: 'Proedit',
   }],
   admin: [{
     name: 'Production',
@@ -15,6 +17,8 @@ const roleToRouter = {
     name: 'Proadd',
   }, {
     name: 'Classmanage',
+  }, {
+    name: 'Proedit',
   }],
 };
 /**

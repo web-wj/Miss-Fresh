@@ -10,29 +10,22 @@
             line-height: 50px;
             padding-left: 10px;
             border-bottom: 1px solid #eee;
+            position: relative;
             .breadcrumb {
                 display: inline-block;
                 margin-left: 20px;
             }
             .user-info {
-                float: right;
-                cursor: pointer;
+                position: absolute;
+                right: 0;
+                top: 0;   
                 text-align: center;
-                li {
-                    padding: 0 20px;
+                div {
+                    display: inline-block;
+                    padding: 0 10px;
                 }
-                li:not(:first-child) {
-                    display: none;
-                    &:hover {
-                        background-color: #eee;
-                        color: #000;
-                        font-weight: bold;
-                    }
-                }
-                &:hover{
-                    li {
-                        display: block;
-                    }
+                .login-out{
+                    cursor: pointer;
                 }
             }
         }

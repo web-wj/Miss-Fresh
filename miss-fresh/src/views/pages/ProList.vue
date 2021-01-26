@@ -1,16 +1,29 @@
 <template>
   <div class="prolist">
     <!-- 搜索列表 -->
-    <search-list :categoryList="categoryList" @searchClick="handleClick" />
+    <search-list
+      :categoryList="categoryList"
+      @searchClick="handleClick"
+      :key="key"
+    />
     <!-- 商品列表 -->
-    <pro-table :data="tableData" :pagination="pagination" @pageNum="changePage" />
+    <pro-table
+      :data="tableData"
+      :pagination="pagination"
+      @pageNum="changePage"
+      @proEdit="proEdit"
+      @proDelect="proDelect"
+    />
+    <a-button class="proadd" type="primary" html-type="submit">
+      <router-link :to="{ name: 'Proadd' }">添加商品</router-link>
+    </a-button>
   </div>
 </template>
 
 <script>
 import SearchList from '../../components/Search.vue';
 import ProTable from '../../components/ProTable.vue';
-import apiTable from '../../api/production';
+import apiProduct from '../../api/production';
 import apiSearch from '../../api/category';
 
 export default {
@@ -46,10 +59,11 @@ export default {
     // 点击搜索按钮触发的函数
     handleClick(val) {
       this.searchFrom = val;
+      this.getProTable();
     },
     // 获取商品列表数据的函数
     getProTable() {
-      apiTable
+      apiProduct
         .table({
           page: this.pagination.current,
           size: this.pagination.pageSize,
@@ -68,6 +82,45 @@ export default {
       this.pagination = e;
       this.getProTable();
     },
+    // 编辑和删除按钮的功能
+    proEdit(record) {
+      console.log(record);
+      this.$router.push({
+        name: 'Proedit',
+        params: {
+          id: record.id,
+        },
+      });
+    },
+    proDelect(record) {
+      this.$confirm({
+        title: '确认删除',
+        content: <div style="color:red">{`确认删除商品标题为：${record.title}的商品吗？`}</div>,
+        onOk: () => {
+          apiProduct.remove({
+            id: record.id,
+          }).then((res) => {
+            this.getProTable();
+            console.log('删除成功', res);
+          });
+        },
+        onCancel: () => {
+          console.log('cancel');
+        },
+        class: 'confim-box',
+      });
+    },
   },
 };
 </script>
+
+<style scoped lang="less">
+.prolist {
+  position: relative;
+  .proadd {
+    position: absolute;
+    right: 30px;
+    top: 13px;
+  }
+}
+</style>
