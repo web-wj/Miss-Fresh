@@ -4,7 +4,6 @@
     <search-list
       :categoryList="categoryList"
       @searchClick="handleClick"
-      :key="key"
     />
     <!-- 商品列表 -->
     <pro-table

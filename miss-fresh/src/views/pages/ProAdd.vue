@@ -6,13 +6,9 @@
       </a-steps>
     </div>
     <div class="steps-content">
-      <add-basic v-if="current === 0" />
+      <add-basic v-if="current === 0" @next='next' :form='form'/>
       <add-show v-else />
     </div>
-    <a-button v-if="current < steps.length - 1" type="primary" @click="next">
-      下一步
-    </a-button>
-    <div class="content"></div>
   </div>
 </template>
 <script>
@@ -35,11 +31,24 @@ export default {
           title: '填写商品销售信息',
         },
       ],
+      form: {
+        title: '',
+        desc: '',
+        category: '',
+        c_items: [],
+        tags: [],
+        price: 0,
+        price_off: 0,
+        inventory: 0,
+        unit: '',
+        images: [],
+      },
     };
   },
   methods: {
-    next() {
+    next(form) {
       this.current += 1;
+      console.log(form);
     },
     prev() {
       this.current -= 1;

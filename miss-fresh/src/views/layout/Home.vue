@@ -1,5 +1,5 @@
 <template>
-  <div class="home" key="key">
+  <div class="home">
     <left-menu/>
     <div :class="{'main-app': true, 'extend-app': $store.state.collapsed}">
       <topNav />
@@ -13,17 +13,6 @@ import leftMenu from './components/LeftMenu.vue';
 import topNav from './components/TopNav.vue';
 
 export default {
-  data() {
-    return {
-      key: 0,
-    };
-  },
-  watch: {
-    $route() {
-      console.log(this.key);
-      this.key += 1;
-    },
-  },
   components: {
     leftMenu,
     topNav,
