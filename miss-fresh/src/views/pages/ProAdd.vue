@@ -36,7 +36,7 @@ export default {
         title: '',
         desc: '',
         category: '',
-        c_items: [],
+        c_item: [],
         tags: [],
         price: 0,
         price_off: 0,
@@ -51,14 +51,21 @@ export default {
       this.form = form;
       if (this.current === 1) {
         // 提交数据
-        apiProduct.add(this.form).then((res) => {
-          console.log(res);
-          this.$message.success('新增商品成功！');
-          this.$router.push({
-            name: 'Prolist',
+        if (this.$route.params.id) {
+          apiProduct.updata(this.form).then(() => {
+            this.$message.success('修改商品成功！');
+            this.$router.push({
+              name: 'Prolist',
+            });
           });
-        });
-        console.log(form);
+        } else {
+          apiProduct.add(this.form).then(() => {
+            this.$message.success('新增商品成功！');
+            this.$router.push({
+              name: 'Prolist',
+            });
+          });
+        }
       } else {
         this.current += 1;
       }
@@ -66,6 +73,16 @@ export default {
     prev() {
       this.current -= 1;
     },
+  },
+  created() {
+    const { id } = this.$route.params;
+    if (id) {
+      // 获取商品的详细数据
+      apiProduct.getData(id).then((res) => {
+        this.form = res;
+        console.log(res);
+      });
+    }
   },
 };
 </script>

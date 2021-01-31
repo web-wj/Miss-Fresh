@@ -51,7 +51,6 @@
   </a-form-model>
 </template>
 <script>
-import apiCategory from '../api/category';
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -65,8 +64,6 @@ export default {
   data() {
     return {
       rules: {},
-      categoryList: [],
-      categoryItems: [],
       previewVisible: false,
       previewImage: '',
       fileList: [],
@@ -75,18 +72,16 @@ export default {
   },
   props: ['form'],
   created() {
-    apiCategory.list().then((res) => {
-      this.categoryList = res.data;
-    });
+    if (this.$route.params.id) {
+      this.fileList = this.form.images.map((item, index) => ({
+        uid: index,
+        name: `image-${index}.png`,
+        status: 'done',
+        url: item,
+      }));
+    }
   },
   methods: {
-    changeCategory(c) {
-      for (let i = 0; i < this.categoryList.length; i += 1) {
-        if (this.categoryList[i].id === c) {
-          this.categoryItems = this.categoryList[i].c_items;
-        }
-      }
-    },
     prev() {
       this.$emit('prev', this.form);
     },
@@ -117,7 +112,6 @@ export default {
         this.form.images = this.form.images.filter((item) => item !== url);
       }
       this.fileList = fileList;
-      console.log('上传图片的时候触发的函数 change');
     },
     handleCancel() {
       this.previewVisible = false;
