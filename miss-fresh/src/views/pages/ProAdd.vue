@@ -6,14 +6,15 @@
       </a-steps>
     </div>
     <div class="steps-content">
-      <add-basic v-if="current === 0" @next='next' :form='form'/>
-      <add-show v-else />
+      <add-basic v-if="current === 0" @next="next" :form="form" />
+      <add-show v-else @next="next" @prev="prev" :form="form" />
     </div>
   </div>
 </template>
 <script>
 import AddBasic from '../../components/AddBasic.vue';
 import AddShow from '../../components/AddShow.vue';
+import apiProduct from '../../api/production';
 
 export default {
   components: {
@@ -47,8 +48,20 @@ export default {
   },
   methods: {
     next(form) {
-      this.current += 1;
-      console.log(form);
+      this.form = form;
+      if (this.current === 1) {
+        // 提交数据
+        apiProduct.add(this.form).then((res) => {
+          console.log(res);
+          this.$message.success('新增商品成功！');
+          this.$router.push({
+            name: 'Prolist',
+          });
+        });
+        console.log(form);
+      } else {
+        this.current += 1;
+      }
     },
     prev() {
       this.current -= 1;

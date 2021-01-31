@@ -20,14 +20,17 @@
     </a-form-model-item>
     <a-form-model-item label="商品相册" prop="images">
       <a-upload
-        action="'https://www.mallapi.duyiedu.com/upload/images?appkey='+$store.state.user.appkey"
+        :action="'https://mallapi.duyiedu.com/upload/images?appkey=' +
+            $store.state.user.appkey"
+        method="post"
         list-type="picture-card"
         :file-list="fileList"
         @preview="handlePreview"
         @change="handleChange"
+        name="avatar"
       >
         <div v-if="fileList.length < 8">
-          <a-icon type="plus" />
+          <a-icon type="loading?'loading':'plus'" />
           <div class="ant-upload-text">
             Upload
           </div>
@@ -58,7 +61,6 @@ function getBase64(file) {
     reader.onerror = (error) => reject(error);
   });
 }
-
 export default {
   data() {
     return {
@@ -67,37 +69,8 @@ export default {
       categoryItems: [],
       previewVisible: false,
       previewImage: '',
-      fileList: [
-        {
-          uid: '-1',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-2',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-3',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-4',
-          name: 'image.png',
-          status: 'done',
-          url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        },
-        {
-          uid: '-5',
-          name: 'image.png',
-          status: 'error',
-        },
-      ],
+      fileList: [],
+      loading: false,
     };
   },
   props: ['form'],
@@ -115,9 +88,10 @@ export default {
       }
     },
     prev() {
-
+      this.$emit('prev', this.form);
     },
     next() {
+      this.loading = true;
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           this.$emit('next', this.form);
@@ -128,14 +102,22 @@ export default {
       });
     },
     async handlePreview(file) {
+      const obj = file;
       if (!file.url && !file.preview) {
-        file.preview = await getBase64(file.originFileObj);
+        obj.preview = await getBase64(file.originFileObj);
       }
       this.previewImage = file.url || file.preview;
       this.previewVisible = true;
     },
-    handleChange({ fileList }) {
+    handleChange({ file, fileList }) {
+      if (file.status === 'done') {
+        this.form.images.push(file.response.data.url);
+      } else if (file.status === 'removed') {
+        const { url } = file.respones.data;
+        this.form.images = this.form.images.filter((item) => item !== url);
+      }
       this.fileList = fileList;
+      console.log('上传图片的时候触发的函数 change');
     },
     handleCancel() {
       this.previewVisible = false;
