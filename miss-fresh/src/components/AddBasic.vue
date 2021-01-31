@@ -62,7 +62,7 @@ export default {
     changeCategory(c) {
       for (let i = 0; i < this.categoryList.length; i += 1) {
         if (this.categoryList[i].id === c) {
-          this.categoryItems = this.categoryList[i].c_item;
+          this.categoryItems = this.categoryList[i].c_items;
         }
       }
     },

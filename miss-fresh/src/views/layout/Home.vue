@@ -17,9 +17,6 @@ export default {
     leftMenu,
     topNav,
   },
-  methods: {
-
-  },
 };
 </script>
 

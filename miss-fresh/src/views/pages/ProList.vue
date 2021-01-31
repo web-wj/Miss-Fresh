@@ -83,7 +83,6 @@ export default {
     },
     // 编辑和删除按钮的功能
     proEdit(record) {
-      console.log(record);
       this.$router.push({
         name: 'Proedit',
         params: {
@@ -98,9 +97,9 @@ export default {
         onOk: () => {
           apiProduct.remove({
             id: record.id,
-          }).then((res) => {
+          }).then(() => {
             this.getProTable();
-            console.log('删除成功', res);
+            this.$message.success('删除成功！');
           });
         },
         onCancel: () => {

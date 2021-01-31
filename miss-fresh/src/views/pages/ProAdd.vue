@@ -80,7 +80,6 @@ export default {
       // 获取商品的详细数据
       apiProduct.getData(id).then((res) => {
         this.form = res;
-        console.log(res);
       });
     }
   },
