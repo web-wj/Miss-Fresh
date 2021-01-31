@@ -58,6 +58,7 @@ export default {
     // 点击搜索按钮触发的函数
     handleClick(val) {
       this.searchFrom = val;
+      this.pagination.current = 1;
       this.getProTable();
     },
     // 获取商品列表数据的函数
@@ -69,6 +70,7 @@ export default {
           ...this.searchFrom,
         })
         .then((res) => {
+          this.pagination.total = res.total;
           this.tableData = res.data.map((item) => ({
             ...item,
             key: item.id,
