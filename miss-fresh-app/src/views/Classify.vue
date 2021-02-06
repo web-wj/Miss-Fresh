@@ -4,11 +4,17 @@
       <van-icon name="search" />
       <div>苹果特卖亿元一斤</div>
     </div>
+    <one-bar/>
   </div>
 </template>
 
 <script>
+import OneBar from '../components/OneBar.vue';
+
 export default {
+  components: {
+    OneBar,
+  },
 
 };
 </script>
