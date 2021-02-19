@@ -19,6 +19,7 @@
 
 <script>
 import { mapActions } from 'vuex';
+import tools from '../utils/tools';
 
 export default {
   data() {
@@ -106,22 +107,14 @@ export default {
       const itemLeft = e.target.getBoundingClientRect().left;
       const wrapperWidth = oneTab.offsetWidth;
       // 给滚动条的移动添加动画，使之平滑过渡
-      this.moveTo(oneTab.scrollLeft, itemWidth / 2 + itemLeft - wrapperWidth / 2);
+      tools.moveTo(oneTab.scrollLeft, itemWidth / 2 + itemLeft - wrapperWidth / 2,
+        oneTab, 'scrollLeft');
       // 获取侧边栏数据
       this.getSlideList(this.menuList[i].title);
     },
-    moveTo(start, end) {
-      let dis = 0;
-      const speed = end > 0 ? 5 : -5;
-      const timer = setInterval(() => {
-        dis += speed;
-        this.$refs.oneTab.scrollLeft = start + dis;
-        if (Math.abs(dis) > Math.abs(end)) {
-          this.$refs.oneTab.scrollLeft = start + end;
-          clearInterval(timer);
-        }
-      }, 1);
-    },
+  },
+  mounted() {
+    this.getSlideList(this.menuList[0].title);
   },
 };
 </script>

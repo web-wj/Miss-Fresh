@@ -5,15 +5,18 @@
       <div>苹果特卖亿元一斤</div>
     </div>
     <one-bar/>
+    <side-bar/>
   </div>
 </template>
 
 <script>
-import OneBar from '../components/OneBar.vue';
+import oneBar from '../components/OneBar.vue';
+import sideBar from '../components/SideBar.vue';
 
 export default {
   components: {
-    OneBar,
+    oneBar,
+    sideBar,
   },
 
 };

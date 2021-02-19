@@ -6,18 +6,17 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    slideList: [],
+    sideList: [],
   },
   mutations: {
     getSlideList(state, list) {
-      state.slideList = list;
+      state.sideList = list;
     },
   },
   actions: {
     async getSlideList({ commit }, type) {
       const value = await api.getsidebar(type);
       commit('getSlideList', value);
-      console.log(value);
     },
   },
   modules: {},
