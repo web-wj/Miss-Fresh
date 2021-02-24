@@ -20,7 +20,12 @@
           @load="onLoad"
           :immediate-check="false"
         >
-          <goods-card v-for="item in goodsList" :key="item.id" v-bind="item"></goods-card>
+          <goods-card
+            v-for="item in goodsList"
+            :key="item.id"
+            v-bind="item"
+            :num='counterMap[item.id]'
+          ></goods-card>
         </van-list>
       </van-pull-refresh>
     </div>
@@ -45,7 +50,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['goodsList']),
+    ...mapState(['goodsList', 'counterMap']),
   },
   methods: {
     ...mapMutations(['resetGoodsList']),
@@ -80,6 +85,7 @@ export default {
       } else {
         this.type = 'price-up';
       }
+      this.onRefresh();
     },
   },
 };
