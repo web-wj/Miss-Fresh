@@ -6,6 +6,7 @@
     icon="cart-o"
     to="/home/shopping"
     :badge="badge"
+    id="shop-car"
     >购物车</van-tabbar-item>
     <van-tabbar-item icon="user-circle-o" to="/home/my">我的</van-tabbar-item>
   </van-tabbar>

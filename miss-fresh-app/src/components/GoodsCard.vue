@@ -1,7 +1,7 @@
 <template>
   <div class="card-wrapper van-hairline--bottom">
     <div class="card-img">
-      <img :src="images[0]" />
+      <img :src="images[0]" ref="img"/>
     </div>
     <div class="card-content">
       <div class="title overflow-hidden">{{ title }}</div>
@@ -26,6 +26,7 @@ youyu
 
 <script>
 import { mapMutations } from 'vuex';
+import Animate from '../tools/animate/index';
 
 export default {
   props: ['images', 'tags', 'title', 'desc', 'price', 'id', 'num'],
@@ -33,6 +34,29 @@ export default {
     ...mapMutations(['storageChange']),
     counter(id, num) {
       this.storageChange({ id, value: num });
+      if (num === -1) {
+        return;
+      }
+      // 图片的位置
+      const { top: imgTop, left: imgLeft } = this.$refs.img.getBoundingClientRect();
+      // 图片的宽高
+      const { offsetWidth: imgWidth, offsetHeight: imgHeight } = this.$refs.img;
+      const shopCar = document.getElementById('shop-car');
+      // 购物车的位置
+      const { top: carTop, left: carLeft } = shopCar.getBoundingClientRect();
+      // 购物车的宽高
+      const { offsetWidth: carWidth, offsetHeight: carHeight } = shopCar;
+      const endX = carLeft + carWidth / 2;
+      const endY = carTop + carHeight / 2;
+      Animate({
+        startX: imgLeft,
+        startY: imgTop,
+        endX,
+        endY,
+        src: this.$refs.img.src,
+        width: imgWidth,
+        height: imgHeight,
+      });
     },
   },
 };
