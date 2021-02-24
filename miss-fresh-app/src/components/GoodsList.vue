@@ -1,11 +1,12 @@
 <template>
   <div class="list-wrapper">
     <div class="list-header van-hairline--top-bottom">
-      <div :class="{ active: type == 'all' }">综合</div>
-      <div :class="{ active: type == 'sale' }">销量</div>
+      <div :class="{ active: type == 'all' }" @click="changeType('all')">综合</div>
+      <div :class="{ active: type == 'sale' }" @click="changeType('sale')">销量</div>
       <div
         class="price"
         :class="{ 'price-up': type == 'price-up', 'price-down': type == 'price-down' }"
+        @click="changeType('price')"
       >
         价格
       </div>
@@ -20,6 +21,19 @@ export default {
     return {
       type: 'price-up',
     };
+  },
+  methods: {
+    changeType(type) {
+      if (type === 'all') {
+        this.type = 'all';
+      } else if (type === 'sale') {
+        this.type = 'sale';
+      } else if (this.type === 'price-up') {
+        this.type = 'price-down';
+      } else {
+        this.type = 'price-up';
+      }
+    },
   },
 };
 </script>
@@ -48,27 +62,27 @@ export default {
     color: #ff1a90;
     font-weight: bold;
   }
-  .price::before{
-      content: '';
-      border: 4px solid transparent;
-      border-bottom-color:#aaa;
-      position: absolute;
-      top: 4px;
-      right: 0;
+  .price::before {
+    content: "";
+    border: 4px solid transparent;
+    border-bottom-color: #aaa;
+    position: absolute;
+    top: 4px;
+    right: 0;
   }
-  .price::after{
-      content: '';
-      border: 4px solid transparent;
-      border-top-color:#aaa;
-      position: absolute;
-      bottom: 4px;
-      right: 0;
+  .price::after {
+    content: "";
+    border: 4px solid transparent;
+    border-top-color: #aaa;
+    position: absolute;
+    bottom: 4px;
+    right: 0;
   }
-  .price-up::before{
-      border-bottom-color:#ff1a90;
+  .price-up::before {
+    border-bottom-color: #ff1a90;
   }
-  .price-down::after{
-      border-top-color:#ff1a90;
+  .price-down::after {
+    border-top-color: #ff1a90;
   }
 }
 </style>
