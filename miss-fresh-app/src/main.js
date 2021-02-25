@@ -5,6 +5,9 @@ import router from './router';
 import store from './store';
 import 'vant/lib/index.css';
 import 'lib-flexible';
+import api from './api/index';
+
+Vue.prototype.$api = api;
 
 Vue.use(Vant);
 

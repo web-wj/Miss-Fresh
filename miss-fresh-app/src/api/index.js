@@ -24,7 +24,21 @@ const getGoodsList = (type, page, size, sort) => request.get(URLs.getGoodslist, 
   },
 });
 
+// 模糊查询
+const likeSearch = (value) => request.get(URLs.likeSearch, { params: { likeValue: value } });
+
+// 搜索功能
+const search = (type, page, size) => request.get(URLs.search, {
+  params: {
+    type,
+    page,
+    size,
+  },
+});
+
 export default {
   getsidebar,
   getGoodsList,
+  likeSearch,
+  search,
 };

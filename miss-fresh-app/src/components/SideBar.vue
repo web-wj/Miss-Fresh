@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 
 import tools from '../utils/tools';
 
@@ -29,6 +29,7 @@ export default {
     ...mapState(['sideList']),
   },
   methods: {
+    ...mapMutations(['resetGoodsList']),
     ...mapActions(['getGoodsList']),
     moveTo(i, e) {
       if (this.move) {
@@ -43,10 +44,12 @@ export default {
       tools.moveTo(sideBar.scrollTop, -wrapperTop - wrapperHeight / 2 + itemTop + itemHeight / 2,
         sideBar, 'scrollTop');
       // 获取商品卡片信息
+      this.resetGoodsList();
       this.getGoodsList({ type: this.sideList[i], page: 1, sortType: 'all' });
     },
   },
   mounted() {
+    this.resetGoodsList();
     this.getGoodsList({ type: this.sideList[0], page: 1, sortType: 'all' });
   },
 };

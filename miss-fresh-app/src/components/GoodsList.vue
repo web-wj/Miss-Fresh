@@ -11,18 +11,74 @@
         价格
       </div>
     </div>
-    <div class="list-content"></div>
+    <div class="list-content">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-list
+          v-model="loading"
+          :finished="finished"
+          finished-text="没有更多了"
+          @load="onLoad"
+          :immediate-check="false"
+        >
+          <goods-card
+            v-for="item in goodsList"
+            :key="item.id"
+            v-bind="item"
+            :num='counterMap[item.id]'
+          ></goods-card>
+        </van-list>
+      </van-pull-refresh>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapMutations, mapState } from 'vuex';
+import goodsCard from './GoodsCard.vue';
+
 export default {
+  components: {
+    goodsCard,
+  },
   data() {
     return {
       type: 'price-up',
+      isLoading: false,
+      loading: false,
+      finished: false,
+      page: 1,
     };
   },
+<<<<<<< HEAD
   methods: {
+=======
+  computed: {
+    ...mapState(['goodsList', 'counterMap']),
+  },
+  methods: {
+    ...mapMutations(['resetGoodsList']),
+    ...mapActions(['getGoodsList']),
+    async onLoad() {
+      this.loading = true;
+      this.page += 1;
+      const result = await this.getGoodsList({ page: this.page, sortType: this.type });
+      if (result) {
+        this.loading = false;
+      } else {
+        this.finished = true;
+      }
+    },
+    // 下拉刷新
+    onRefresh() {
+      this.isLoading = true;
+      this.loading = false;
+      this.finished = false;
+      this.page = 1;
+      this.resetGoodsList();
+      this.getGoodsList({ page: 1, sortType: this.type });
+      this.isLoading = false;
+    },
+>>>>>>> 12.搜索页面
     changeType(type) {
       if (type === 'all') {
         this.type = 'all';
@@ -33,6 +89,10 @@ export default {
       } else {
         this.type = 'price-up';
       }
+<<<<<<< HEAD
+=======
+      this.onRefresh();
+>>>>>>> 12.搜索页面
     },
   },
 };
@@ -42,7 +102,7 @@ export default {
 .list-header {
   width: 296px;
   position: relative;
-  top: 0;
+  top: -12px;
   left: 79px;
   box-sizing: border-box;
   padding: 0px 8px;
@@ -84,5 +144,16 @@ export default {
   .price-down::after {
     border-top-color: #ff1a90;
   }
+}
+.list-content {
+  width: 296px;
+  position: fixed;
+  top: 175px;
+  right: 0;
+  bottom: 50px;
+  overflow: auto;
+}
+.van-pull-refresh{
+  overflow:unset !important;
 }
 </style>
